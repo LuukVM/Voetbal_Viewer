@@ -29,7 +29,6 @@ class MyApp extends StatelessWidget {
         style: new TextStyle(
           color: Color(0xFF0062A5))),
       photoSize: 100.0,
-      onClick: ()=>print("Flutter Egypt"),
       loaderColor: Color(0xFF0062A5),
     );
    // return MaterialApp(
