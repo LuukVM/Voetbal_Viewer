@@ -4,6 +4,7 @@ import 'package:voetbal_viewer/New_player.dart';
 import 'package:voetbal_viewer/Player.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:voetbal_viewer/GlobalVariable.dart';
+import 'package:voetbal_viewer/bottom_modal.dart';
 
 class Team extends StatefulWidget {
   const Team({Key key}) : super(key: key);
@@ -17,6 +18,7 @@ class TeamState extends State<Team> with SingleTickerProviderStateMixin {
     loadSharedPreferencesAndData();
     super.initState();
   }
+
 
   void loadSharedPreferencesAndData() async {
     sharedPreferences = await SharedPreferences.getInstance();

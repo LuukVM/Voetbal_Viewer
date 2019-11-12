@@ -31,9 +31,6 @@ class MyApp extends StatelessWidget {
       photoSize: 100.0,
       loaderColor: Color(0xFF0062A5),
     );
-   // return MaterialApp(
-   //   home: BottomNavigator(),
-   // );
   }
 }
 
