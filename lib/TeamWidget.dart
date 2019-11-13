@@ -59,6 +59,7 @@ class TeamState extends State<Team> with SingleTickerProviderStateMixin {
   Widget buildListView() {
     return ListView.separated(
       separatorBuilder: (context, index) => Divider(
+        height: 0.0,
         color: Colors.black,
       ),
       itemCount: players.length,

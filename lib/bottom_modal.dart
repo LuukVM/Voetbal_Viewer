@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:voetbal_viewer/GlobalVariable.dart';
 import 'package:voetbal_viewer/Player.dart';
+import 'package:voetbal_viewer/TeamWidget.dart';
 
 class BottomSheetSwitch extends StatefulWidget {
   BottomSheetSwitch({Key key}) : super(key: key);
@@ -54,6 +57,7 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
       },
       child: Draggable<Player>(
           data: item,
+          onDragCompleted: () => setInfield(item),
           childWhenDragging: Container(),
           feedback: buildDraggingContainter(item, index),
           child: buildContainer(item, index)),
@@ -150,5 +154,18 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
         ),
       ],
     );
+  }
+
+  void setInfield(Player item) {
+    setState(() {
+      item.inField = !item.inField;
+    });
+    saveData();
+  }
+
+  void saveData() {
+    List<String> stringList =
+        players.map((item) => json.encode(item.toMap())).toList();
+    sharedPreferences.setStringList('players', stringList);
   }
 }

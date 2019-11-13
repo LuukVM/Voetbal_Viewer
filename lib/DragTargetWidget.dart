@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:voetbal_viewer/FieldWidget.dart';
 import 'package:voetbal_viewer/football_icons.dart';
@@ -5,6 +7,7 @@ import 'TeamWidget.dart';
 import 'package:voetbal_viewer/PresentWidget.dart';
 import 'package:voetbal_viewer/GlobalVariable.dart';
 import 'package:voetbal_viewer/Player.dart';
+import 'package:voetbal_viewer/bottom_modal.dart';
 
 class DragTargetWidget extends StatefulWidget {
   DragTargetWidget({Key key}) : super(key: key);
@@ -16,6 +19,7 @@ class DragTargetWidget extends StatefulWidget {
 class DragTargetWidgetState extends State<DragTargetWidget> {
   bool accepted = false;
   bool fieldSetup = false;
+  String name;
 
   Widget build(BuildContext context) {
     fieldSetup = false;
@@ -62,7 +66,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
 
   Widget keeper() {
     return Padding(
-      padding: EdgeInsets.only(top: 505.0, left: 129.0),
+      padding: EdgeInsets.only(top: 490.0, left: 129.0),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -71,8 +75,30 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
         height: 30.0,
         width: 100.0,
         child: DragTarget(
-          builder: (context, List<Player> candidateData, rejectedData) {
-            return Center(child: Text('keeper'));
+          onWillAccept: (data) {
+            if (data == Player) {
+              return true;
+            } else {
+              return false;
+            }
+          },
+          onAccept: (Player data) {
+            setState(() {
+              accepted = true;
+              name = data.title;
+            });
+            saveData();
+          },
+          builder: (BuildContext context, List<Player> acceptedlist, rejectedlist) {
+            if (accepted) {
+              return Center(
+                child: Text(name),
+              );
+            } else {
+              return Center(
+                child: Text('keeper'),
+              );
+            }
           },
         ),
       ),
@@ -81,7 +107,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
 
   Widget rightback() {
     return Padding(
-      padding: EdgeInsets.only(top: 390.0, left: 240.0),
+      padding: EdgeInsets.only(top: 370.0, left: 240.0),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -100,7 +126,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
 
   Widget leftback() {
     return Padding(
-      padding: EdgeInsets.only(top: 390.0, left: 20.0),
+      padding: EdgeInsets.only(top: 370.0, left: 20.0),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -119,7 +145,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
 
   Widget centraldefender() {
     return Padding(
-      padding: EdgeInsets.only(top: 445.0, left: 200.0),
+      padding: EdgeInsets.only(top: 425.0, left: 200.0),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -138,7 +164,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
 
   Widget frontstopper() {
     return Padding(
-      padding: EdgeInsets.only(top: 445.0, left: 60.0),
+      padding: EdgeInsets.only(top: 425.0, left: 60.0),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -176,8 +202,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
 
   Widget centralmiddle() {
     return Padding(
-      padding: EdgeInsets.only(
-          top: 320.0, left: fieldSetup ? 60.0 : 129.0),
+      padding: EdgeInsets.only(top: 320.0, left: fieldSetup ? 60.0 : 129.0),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -254,8 +279,9 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
 
   Widget frontright() {
     return Padding(
-        padding: EdgeInsets.only(top: fieldSetup ? 120.0 : 150.0, left: fieldSetup ? 200.0 : 240.0),
-        child: Container(
+      padding: EdgeInsets.only(
+          top: fieldSetup ? 120.0 : 150.0, left: fieldSetup ? 200.0 : 240.0),
+      child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
           borderRadius: BorderRadius.circular(10.0),
@@ -288,5 +314,11 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
         ),
       ),
     );
+  }
+
+  void saveData() {
+    List<String> stringList =
+        players.map((item) => json.encode(item.toMap())).toList();
+    sharedPreferences.setStringList('players', stringList);
   }
 }

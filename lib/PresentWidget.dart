@@ -11,6 +11,14 @@ class Present extends StatefulWidget {
 }
 
 class PresentState extends State<Present> with SingleTickerProviderStateMixin {
+  List<Player> presentPlayers = new List();
+
+  @override
+  void initState(){
+    super.initState();
+    presentPlayers = players.where((x) => x.present).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,24 +30,26 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
           centerTitle: true,
           backgroundColor: Color(0xFF0062A5),
         ),
-        body: buildListView());
+        body: presentPlayers.isEmpty ? emptyList() : buildListView());
   }
 
   Widget buildListView() {
-    return ListView.builder(
-      itemCount: players.length,
-      itemBuilder: (BuildContext context, int index) {
-        if (players[index].present == true) {
-          return buildListTile(players[index], index);
-        } else {
-          return emptyList();
-        }
+    return ListView.separated(
+      separatorBuilder: (context, index) => Divider(
+        height: 0.0,
+        color: Colors.black,
+      ),
+      itemCount: presentPlayers.length,
+      itemBuilder: (BuildContext context, int index) { 
+      return buildListTile(presentPlayers[index], index);
       },
     );
   }
 
   Widget emptyList() {
-    return Center();
+    return Center(
+      child: Text('Geen spelers aanwezig'),
+    );
   }
 
   Widget buildListTile(item, index) {

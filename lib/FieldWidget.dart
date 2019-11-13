@@ -34,24 +34,25 @@ class BackgroundImageState extends State<BackgroundImage> {
               fit: BoxFit.fill,
             ),
           ),
+          DragTargetWidget(),
           Align(
             alignment: Alignment(0.95, 0.95),
             child: FloatingActionButton(
-                child: Icon(
-                  Icons.compare_arrows,
-                  color: Colors.white,
-                ),
-                backgroundColor: Color(0xFF0062A5),
-                onPressed: (bottomSheetActive
-                    ? null
-                    : () {
-                        setState(() {
-                          bottomSheetActive = true;
-                        });
-                        _showBottomSheet(context);
-                      })),
+              child: Icon(
+                Icons.compare_arrows,
+                color: Colors.white,
+              ),
+              backgroundColor: Color(0xFF0062A5),
+              onPressed: (bottomSheetActive
+                  ? null
+                  : () {
+                      setState(() {
+                        bottomSheetActive = true;
+                      });
+                      _showBottomSheet(context);
+                    }),
+            ),
           ),
-          DragTargetWidget(),
         ],
       ),
     );
@@ -59,7 +60,7 @@ class BackgroundImageState extends State<BackgroundImage> {
 
   _showBottomSheet(BuildContext context) {
     showBottomSheet<void>(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.blue,
         context: context,
         builder: (context) => BottomSheetSwitch()).closed.whenComplete(
       () {
