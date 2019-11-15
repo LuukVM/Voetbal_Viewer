@@ -34,44 +34,38 @@ class BackgroundImageState extends State<BackgroundImage> {
               fit: BoxFit.fill,
             ),
           ),
-          DragTargetWidget(),
-          Align(
-            alignment: Alignment(0.95, 0.95),
-            child: FloatingActionButton(
-              child: Icon(
-                Icons.compare_arrows,
+          Padding(
+            padding: EdgeInsets.only(top: 30, left: 5),
+            child: Container(
+              height: 35,
+              width: 64,
+              decoration: BoxDecoration(
                 color: Colors.white,
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black87,
+                    offset: Offset(1.0, 4.0),
+                    blurRadius: 6.0,
+                  ),
+                ],
               ),
-              backgroundColor: Color(0xFF0062A5),
-              onPressed: (bottomSheetActive
-                  ? null
-                  : () {
-                      setState(() {
-                        bottomSheetActive = true;
-                      });
-                      _showBottomSheet(context);
-                    }),
+              child: FlatButton(
+                textColor: Colors.black,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                child: fieldSetup ? Text('4-4-2') : Text('4-3-3'),
+                onPressed: () => setState(() {
+                  fieldSetup = !fieldSetup;
+                }),
+              ),
             ),
+          ),
+          DragTargetWidget(
+            fieldSetupbool: fieldSetup,
           ),
         ],
       ),
-    );
-  }
-
-  _showBottomSheet(BuildContext context) {
-    showBottomSheet<void>(
-        backgroundColor: Colors.blue,
-        context: context,
-        builder: (context) => BottomSheetSwitch()).closed.whenComplete(
-      () {
-        if (mounted) {
-          setState(
-            () {
-              bottomSheetActive = false;
-            },
-          );
-        }
-      },
     );
   }
 }

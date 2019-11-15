@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:voetbal_viewer/GlobalVariable.dart';
 import 'package:voetbal_viewer/Player.dart';
-import 'package:voetbal_viewer/TeamWidget.dart';
+import 'package:voetbal_viewer/TeamWidget.dart';  
 
 class BottomSheetSwitch extends StatefulWidget {
   BottomSheetSwitch({Key key}) : super(key: key);
@@ -27,7 +27,7 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60.0,
+      height: 80.0,
       child: PageView.builder(
         controller: _pageController,
         itemCount: presentPlayers.length,
@@ -55,12 +55,10 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
           ),
         );
       },
-      child: Draggable<Player>(
-          data: item,
-          onDragCompleted: () => setInfield(item),
-          childWhenDragging: Container(),
-          feedback: buildDraggingContainter(item, index),
-          child: buildContainer(item, index)),
+      child: FlatButton(
+          child: buildContainer(item, index),
+          onPressed: () => Navigator.pop(context),
+      ),
     );
   }
 
@@ -69,8 +67,8 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
       children: [
         Center(
           child: Container(
-            height: 30.0,
-            width: 140.0,
+            height: 50.0,
+            width: 170.0,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.0),
                 boxShadow: [
@@ -83,68 +81,23 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.white),
+                  color: Color(0xFF0062A5)),
               child: FittedBox(
-                fit: BoxFit.contain,
+                fit: BoxFit.scaleDown,
                 child: Row(
                   children: [
                     Container(
-                      height: 50.0,
-                      width: 10.0,
+                      height: 30.0,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(10.0),
                             topLeft: Radius.circular(10.0)),
                       ),
                     ),
-                    SizedBox(width: 3.0),
                     Text(
                       presentPlayers[index].title,
                       style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.w300),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget buildDraggingContainter(item, index) {
-    return Stack(
-      children: [
-        Center(
-          child: Container(
-            height: 30.0,
-            width: 100.0,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: Color(0xFF0062A5).withOpacity(0.9),
-              ),
-              child: FittedBox(
-                fit: BoxFit.contain,
-                child: Row(
-                  children: [
-                    Container(
-                      height: 50.0,
-                      width: 10.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(10.0),
-                            topLeft: Radius.circular(10.0)),
-                      ),
-                    ),
-                    SizedBox(width: 3.0),
-                    Text(
-                      presentPlayers[index].title,
-                      style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.white),
+                          fontSize: 16.0, fontWeight: FontWeight.w300, color: Colors.white),
                     ),
                   ],
                 ),

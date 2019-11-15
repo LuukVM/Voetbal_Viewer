@@ -14,7 +14,7 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
   List<Player> presentPlayers = new List();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     presentPlayers = players.where((x) => x.present).toList();
   }
@@ -23,11 +23,14 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.loop),
+            onPressed: () => presentPlayers.clear(),
+          ),
           title: Text(
             'Aanwezige spelers',
             key: Key('PresentWidget'),
           ),
-          centerTitle: true,
           backgroundColor: Color(0xFF0062A5),
         ),
         body: presentPlayers.isEmpty ? emptyList() : buildListView());
@@ -40,8 +43,8 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
         color: Colors.black,
       ),
       itemCount: presentPlayers.length,
-      itemBuilder: (BuildContext context, int index) { 
-      return buildListTile(presentPlayers[index], index);
+      itemBuilder: (BuildContext context, int index) {
+        return buildListTile(presentPlayers[index], index);
       },
     );
   }
@@ -54,23 +57,26 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
 
   Widget buildListTile(item, index) {
     return ListTile(
-      onTap: () => changeItemCompleteness(item),
-      title: 
-          Text(
-            item.title,
-            key: Key('item-$index'),
-            style: TextStyle(
-              fontWeight: FontWeight.w900,
-              color: item.present ? Colors.green : Colors.grey[600],
-            ),
+        onTap: () => {
+              changeItemCompleteness(item),
+              setState(() {
+                presentPlayers = players.where((x) => x.present).toList();
+              }),
+            },
+        title: Text(
+          item.title,
+          key: Key('item-$index'),
+          style: TextStyle(
+            fontWeight: FontWeight.w900,
+            color: item.present ? Colors.green : Colors.grey[600],
           ),
-      trailing: IconButton(
-            icon: Icon(item.hasCar ? Icons.directions_car : Icons.directions_walk,
-            key: Key('hasCar-icon-$index'),
-            color: item.hasCar ? Colors.deepOrange : Colors.grey[600]),
-            onPressed: () => setCarState(item),
-            )
-    );
+        ),
+        trailing: IconButton(
+          icon: Icon(item.hasCar ? Icons.directions_car : Icons.directions_walk,
+              key: Key('hasCar-icon-$index'),
+              color: item.hasCar ? Colors.deepOrange : Colors.grey[600]),
+          onPressed: () => setCarState(item),
+        ));
   }
 
   void changeItemCompleteness(Player item) {
@@ -80,9 +86,9 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
     saveData();
   }
 
-  void setCarState(Player item){
+  void setCarState(Player item) {
     setState(() {
-     item.hasCar = !item.hasCar;
+      item.hasCar = !item.hasCar;
     });
     saveData();
   }
