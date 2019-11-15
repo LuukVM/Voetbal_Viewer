@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
 import 'package:voetbal_viewer/GlobalVariable.dart';
 import 'package:voetbal_viewer/Player.dart';
-import 'package:voetbal_viewer/TeamWidget.dart';  
+import 'package:voetbal_viewer/TeamWidget.dart';
 
 class BottomSheetSwitch extends StatefulWidget {
   BottomSheetSwitch({Key key}) : super(key: key);
@@ -56,8 +57,11 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
         );
       },
       child: FlatButton(
-          child: buildContainer(item, index),
-          onPressed: () => Navigator.pop(context),
+        child: buildContainer(item, index),
+        onPressed: () => {
+          Navigator.pop(context),
+          Vibration.vibrate(duration: 50, amplitude: 125),
+        },
       ),
     );
   }
@@ -97,7 +101,9 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
                     Text(
                       presentPlayers[index].title,
                       style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.w300, color: Colors.white),
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.white),
                     ),
                   ],
                 ),

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
 import 'package:voetbal_viewer/New_player.dart';
 import 'package:voetbal_viewer/Player.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,7 +20,6 @@ class TeamState extends State<Team> with SingleTickerProviderStateMixin {
     super.initState();
   }
 
-
   void loadSharedPreferencesAndData() async {
     sharedPreferences = await SharedPreferences.getInstance();
     loadData();
@@ -38,8 +38,11 @@ class TeamState extends State<Team> with SingleTickerProviderStateMixin {
                 alignment: Alignment.centerRight,
                 key: Key('DeselectAll'),
                 icon: Icon(Icons.loop),
-                onPressed: () => changeAllItemCompleteness(players),
-              )
+                onPressed: () => {
+                  changeAllItemCompleteness(players),
+                  _vibrate(),
+                },
+              ),
             ],
           ),
           backgroundColor: Color(0xFF0062A5),
@@ -47,7 +50,10 @@ class TeamState extends State<Team> with SingleTickerProviderStateMixin {
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           backgroundColor: Color(0xFF0062A5),
-          onPressed: () => goToNewItemView(),
+          onPressed: () => {
+            goToNewItemView(),
+            _vibrate(),
+          },
         ),
         body: players.isEmpty ? emptyList() : buildListView());
   }
@@ -84,8 +90,14 @@ class TeamState extends State<Team> with SingleTickerProviderStateMixin {
 
   Widget buildListTile(item, index) {
     return ListTile(
-      onTap: () => changeItemCompleteness(item),
-      onLongPress: () => goToEditItemView(item),
+      onTap: () => {
+        changeItemCompleteness(item),
+        _vibrate(),
+      },
+      onLongPress: () => {
+        goToEditItemView(item),
+        _vibrate(),
+      },
       title: Text(
         item.title,
         key: Key('item-$index'),
@@ -106,16 +118,17 @@ class TeamState extends State<Team> with SingleTickerProviderStateMixin {
       if (item[i].present == true) {
         setState(() {
           item[i].present = !item[i].present;
-          item[i].inField = !item[i].inField;
+          item[i].inField = false;
         });
-        saveData();
       }
     }
+    saveData();
   }
 
   void changeItemCompleteness(Player item) {
     setState(() {
       item.present = !item.present;
+      item.inField = false;
     });
     saveData();
   }
@@ -179,5 +192,9 @@ class TeamState extends State<Team> with SingleTickerProviderStateMixin {
     List<String> stringList =
         players.map((item) => json.encode(item.toMap())).toList();
     sharedPreferences.setStringList('players', stringList);
+  }
+
+  void _vibrate() {
+    Vibration.vibrate(duration: 50, amplitude: 125);
   }
 }

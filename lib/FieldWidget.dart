@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:vibration/vibration.dart';
 import 'package:voetbal_viewer/BottomSheet.dart';
 import 'package:voetbal_viewer/DragTargetWidget.dart';
 import 'package:voetbal_viewer/bottom_modal.dart';
@@ -55,9 +56,12 @@ class BackgroundImageState extends State<BackgroundImage> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0)),
                 child: fieldSetup ? Text('4-4-2') : Text('4-3-3'),
-                onPressed: () => setState(() {
-                  fieldSetup = !fieldSetup;
-                }),
+                onPressed: () => {
+                  Vibration.vibrate(duration: 50, amplitude: 125),
+                  setState(() {
+                    fieldSetup = !fieldSetup;
+                  })
+                },
               ),
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
 import 'package:voetbal_viewer/Player.dart';
 
 class NewPlayerView extends StatefulWidget {
@@ -57,7 +58,10 @@ class _NewPlayerViewState extends State<NewPlayerView> {
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(10.0),
                       topRight: Radius.circular(10.0))),
-              onPressed: () => submit(),
+              onPressed: () => {
+                submit(),
+                Vibration.vibrate(duration: 50, amplitude: 125),
+              },
             )
           ],
         ),

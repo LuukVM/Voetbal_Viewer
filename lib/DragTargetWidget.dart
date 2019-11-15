@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
 import 'package:voetbal_viewer/FieldWidget.dart';
 import 'package:voetbal_viewer/football_icons.dart';
 import 'TeamWidget.dart';
@@ -47,7 +48,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
 
   Widget keeper() {
     return Padding(
-      padding: EdgeInsets.only(top: 490.0, left: 129.0),
+      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height - 150, left: (MediaQuery.of(context).size.width - 100) /2),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -66,7 +67,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
-              'Stan',
+              ' ',
               style: TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.w300,
@@ -100,7 +101,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
-              'Mark',
+              ' ',
               style: TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.w300,
@@ -134,7 +135,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
-              'Wesley',
+              ' ',
               style: TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.w300,
@@ -168,7 +169,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
-              'Luuk',
+              ' ',
               style: TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.w300,
@@ -202,7 +203,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
-              'Emiel',
+              ' ',
               style: TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.w300,
@@ -236,7 +237,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
-              'Sven',
+              ' ',
               style: TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.w300,
@@ -273,7 +274,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
             child: FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
-                'Matthijs vd Linden',
+                ' ',
                 style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w300,
@@ -308,7 +309,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
-              'Joshua',
+              ' ',
               style: TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.w300,
@@ -344,7 +345,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
-              'Co',
+              ' ',
               style: TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.w300,
@@ -380,7 +381,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
-              'Matthijs vd Wouw',
+              ' ',
               style: TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.w300,
@@ -416,7 +417,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
-              'Joep',
+              ' ',
               style: TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.w300,
@@ -430,6 +431,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
   }
 
   _showBottomSheet(BuildContext context) {
+    Vibration.vibrate(duration: 50, amplitude: 125);
     showModalBottomSheet<void>(
         backgroundColor: Colors.transparent,
         context: context,

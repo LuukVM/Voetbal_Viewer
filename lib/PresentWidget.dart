@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:vibration/vibration.dart';
 import 'package:voetbal_viewer/Player.dart';
 import 'package:voetbal_viewer/GlobalVariable.dart';
 
@@ -23,14 +24,19 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.loop),
-            onPressed: () => presentPlayers.clear(),
-          ),
           title: Text(
             'Aanwezige spelers',
             key: Key('PresentWidget'),
           ),
+          leading: IconButton(
+              icon: Icon(Icons.loop),
+              onPressed: () => {
+                    changeAllItemCompleteness(players),
+                    setState(() {
+                      presentPlayers = players.where((x) => x.present).toList();
+                    }),
+                    _vibrate(),
+                  }),
           backgroundColor: Color(0xFF0062A5),
         ),
         body: presentPlayers.isEmpty ? emptyList() : buildListView());
@@ -58,6 +64,7 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
   Widget buildListTile(item, index) {
     return ListTile(
         onTap: () => {
+              _vibrate(),
               changeItemCompleteness(item),
               setState(() {
                 presentPlayers = players.where((x) => x.present).toList();
@@ -75,14 +82,30 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
           icon: Icon(item.hasCar ? Icons.directions_car : Icons.directions_walk,
               key: Key('hasCar-icon-$index'),
               color: item.hasCar ? Colors.deepOrange : Colors.grey[600]),
-          onPressed: () => setCarState(item),
+          onPressed: () => {
+            setCarState(item),
+            _vibrate(),
+          },
         ));
   }
 
   void changeItemCompleteness(Player item) {
     setState(() {
       item.present = !item.present;
+      item.inField = false;
     });
+    saveData();
+  }
+
+  void changeAllItemCompleteness(List<Player> item) {
+    for (var i = 0; i < item.length; i++) {
+      if (item[i].present == true) {
+        setState(() {
+          item[i].present = !item[i].present;
+          item[i].inField = false;
+        });
+      }
+    }
     saveData();
   }
 
@@ -97,5 +120,9 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
     List<String> stringList =
         players.map((item) => json.encode(item.toMap())).toList();
     sharedPreferences.setStringList('players', stringList);
+  }
+
+  void _vibrate() {
+    Vibration.vibrate(duration: 50, amplitude: 125);
   }
 }

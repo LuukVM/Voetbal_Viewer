@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
 import 'package:voetbal_viewer/FieldWidget.dart';
 import 'package:voetbal_viewer/football_icons.dart';
 import 'TeamWidget.dart';
@@ -21,6 +22,7 @@ class _BottomNavigator extends State<BottomNavigator> {
   ];
 
   void _onItemTapped(int index) {
+    Vibration.vibrate(duration: 50, amplitude: 125);
     setState(() {
       _selectedIndex = index;
     });
