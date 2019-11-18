@@ -59,7 +59,7 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
       child: FlatButton(
         child: buildContainer(item, index),
         onPressed: () => {
-          Navigator.pop(context),
+          Navigator.pop(context, item),
           Vibration.vibrate(duration: 50, amplitude: 125),
         },
       ),
@@ -113,6 +113,10 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
         ),
       ],
     );
+  }
+  
+  void submit(String item){
+    Navigator.pop(context, item);
   }
 
   void setInfield(Player item) {

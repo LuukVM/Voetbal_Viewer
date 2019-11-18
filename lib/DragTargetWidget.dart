@@ -19,7 +19,7 @@ class DragTargetWidget extends StatefulWidget {
 }
 
 class DragTargetWidgetState extends State<DragTargetWidget> {
-  bool accepted = false;
+  bool occupied = false;
   String name;
 
   Widget build(BuildContext context) {
@@ -41,14 +41,16 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
         rightback(),
         frontstopper(),
         centraldefender(),
-        keeper(),
+        keeper(occupied, name),
       ],
     );
   }
 
-  Widget keeper() {
+  Widget keeper(bool _occupied, String _name) {
     return Padding(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height - 150, left: (MediaQuery.of(context).size.width - 100) /2),
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).size.height - 150, 
+        left: (MediaQuery.of(context).size.width - 100) /2),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -66,8 +68,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
         child: FlatButton(
           child: FittedBox(
             fit: BoxFit.scaleDown,
-            child: Text(
-              ' ',
+            child: Text(_occupied ? _name : ' ',
               style: TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.w300,
@@ -82,7 +83,9 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
 
   Widget rightback() {
     return Padding(
-      padding: EdgeInsets.only(top: 370.0, left: 240.0),
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).size.height - 270.0, 
+        left: MediaQuery.of(context).size.width - 120),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -116,7 +119,9 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
 
   Widget leftback() {
     return Padding(
-      padding: EdgeInsets.only(top: 370.0, left: 20.0),
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).size.height - 270, 
+        left: MediaQuery.of(context).size.width - 340),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -150,7 +155,9 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
 
   Widget centraldefender() {
     return Padding(
-      padding: EdgeInsets.only(top: 425.0, left: 200.0),
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).size.height - 215, 
+        left: MediaQuery.of(context).size.width - 150),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -184,7 +191,9 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
 
   Widget frontstopper() {
     return Padding(
-      padding: EdgeInsets.only(top: 425.0, left: 60.0),
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).size.height - 215, 
+        left: MediaQuery.of(context).size.width - 310),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -218,7 +227,9 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
 
   Widget middleleft() {
     return Padding(
-      padding: EdgeInsets.only(top: 235.0, left: 20.0),
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).size.height - 405, 
+        left: MediaQuery.of(context).size.width - 340),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -253,7 +264,9 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
   Widget centralmiddle() {
     return Padding(
       padding: EdgeInsets.only(
-          top: 300.0, left: widget.fieldSetupbool ? 60.0 : 129.0),
+          top: MediaQuery.of(context).size.height - 340, 
+          left: widget.fieldSetupbool ? (MediaQuery.of(context).size.width - 240) /2 
+            : (MediaQuery.of(context).size.width - 100) /2),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -290,7 +303,9 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
 
   Widget middleright() {
     return Padding(
-      padding: EdgeInsets.only(top: 235.0, left: 240.0),
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).size.height - 405, 
+        left: MediaQuery.of(context).size.width - 120),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -325,8 +340,10 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
   Widget frontleft() {
     return Padding(
       padding: EdgeInsets.only(
-          top: widget.fieldSetupbool ? 120.0 : 150.0,
-          left: widget.fieldSetupbool ? 60.0 : 20.0),
+          top: widget.fieldSetupbool ? MediaQuery.of(context).size.height - 520 
+            : MediaQuery.of(context).size.height - 490,
+          left: widget.fieldSetupbool ? MediaQuery.of(context).size.width - 300 
+            : MediaQuery.of(context).size.width - 340),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -361,8 +378,10 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
   Widget centralattacker() {
     return Padding(
       padding: EdgeInsets.only(
-          top: widget.fieldSetupbool ? 300.0 : 110.0,
-          left: widget.fieldSetupbool ? 200.0 : 129.0),
+          top: widget.fieldSetupbool ? MediaQuery.of(context).size.height - 340 
+            : MediaQuery.of(context).size.height - 530,
+          left: widget.fieldSetupbool ? (MediaQuery.of(context).size.width + 40) /2 
+            : (MediaQuery.of(context).size.width - 100) /2),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -397,8 +416,10 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
   Widget frontright() {
     return Padding(
       padding: EdgeInsets.only(
-          top: widget.fieldSetupbool ? 120.0 : 150.0,
-          left: widget.fieldSetupbool ? 200.0 : 240.0),
+          top: widget.fieldSetupbool ? MediaQuery.of(context).size.height - 520 
+            : MediaQuery.of(context).size.height - 490,
+          left: widget.fieldSetupbool ? MediaQuery.of(context).size.width - 160 
+            : MediaQuery.of(context).size.width - 120),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -430,12 +451,15 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
     );
   }
 
-  _showBottomSheet(BuildContext context) {
+  _showBottomSheet(BuildContext context) async {
     Vibration.vibrate(duration: 50, amplitude: 125);
-    showModalBottomSheet<void>(
+    String names = await showModalBottomSheet(
         backgroundColor: Colors.transparent,
         context: context,
-        builder: (context) => BottomSheetSwitch());
+        builder: (context) => BottomSheetSwitch(),);
+    setState(() {
+      name = names;
+    });
   }
 
   void saveData() {
