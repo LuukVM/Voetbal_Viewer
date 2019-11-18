@@ -8,7 +8,9 @@ import 'package:voetbal_viewer/Player.dart';
 import 'package:voetbal_viewer/TeamWidget.dart';
 
 class BottomSheetSwitch extends StatefulWidget {
-  BottomSheetSwitch({Key key}) : super(key: key);
+  final String currentName;
+  final String position;
+  BottomSheetSwitch({Key key, this.currentName, this.position}) : super(key: key);
 
   @override
   _BottomSheetSwitch createState() => _BottomSheetSwitch();
@@ -59,7 +61,9 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
       child: FlatButton(
         child: buildContainer(item, index),
         onPressed: () => {
-          Navigator.pop(context, item),
+          print(item.title),
+          Navigator.pop(context, item.title),
+          //setInfield(item),
           Vibration.vibrate(duration: 50, amplitude: 125),
         },
       ),
@@ -99,7 +103,7 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
                       ),
                     ),
                     Text(
-                      presentPlayers[index].title,
+                      item.title,
                       style: TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.w300,
