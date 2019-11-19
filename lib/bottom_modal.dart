@@ -8,9 +8,8 @@ import 'package:voetbal_viewer/Player.dart';
 import 'package:voetbal_viewer/TeamWidget.dart';
 
 class BottomSheetSwitch extends StatefulWidget {
-  final String currentName;
-  final String position;
-  BottomSheetSwitch({Key key, this.currentName, this.position}) : super(key: key);
+
+  BottomSheetSwitch({Key key}) : super(key: key);
 
   @override
   _BottomSheetSwitch createState() => _BottomSheetSwitch();
