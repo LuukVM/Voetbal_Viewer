@@ -22,16 +22,15 @@ class BackgroundImageState extends State<BackgroundImage> {
   bool bottomSheetActive = false;
 
   @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+  Widget build(BuildContext context) {   
     return Scaffold(
       body: Stack(
         children: <Widget>[
           Center(
             child: new Image.asset(
               'fonts/field.png',
-              width: size.width,
-              height: size.height,
+              width:   MediaQuery.of(context).size.width,
+              height:  MediaQuery.of(context).size.height,
               fit: BoxFit.fill,
             ),
           ),

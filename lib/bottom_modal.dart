@@ -23,7 +23,7 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
   void initState() {
     super.initState();
     presentPlayers = players.where((x) => x.present && !x.inField).toList();
-    _pageController = PageController(initialPage: 1, viewportFraction: 0.4);
+    _pageController = PageController(initialPage: 0, viewportFraction: 0.4);
   }
 
   @override
