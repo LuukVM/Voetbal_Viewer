@@ -66,9 +66,10 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
     );
   }
 
-  Widget getPresetPlayers(){
-    for(Player players in playersInfield) return rebuildSetup(players.fieldIndex, players, true);
-    
+  Widget getPresetPlayers() {
+    return Stack(children: <Widget>[
+      for(Player players in playersInfield) rebuildSetup(players.fieldIndex, players, true),
+    ]);
   }
 
   Widget rebuildSetup(int _index, item, _occupied) {
@@ -130,7 +131,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
     );
   }
 
-  _showBottomSheet(BuildContext context, currentName, _index, _occupied) async { 
+  _showBottomSheet(BuildContext context, currentName, _index, _occupied) async {
     Vibration.vibrate(duration: 50, amplitude: 125);
     Player _item = await showModalBottomSheet(
       backgroundColor: Colors.transparent,
@@ -141,7 +142,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
     if (_item != null) {
       setState(() {
         _item.fieldIndex = _index;
-        _occupied ? setPlayeroutField(currentName): null;
+        _occupied ? setPlayeroutField(currentName) : null;
         saveData();
         rebuildSetup(_index, _item, true);
         playersInfield = players.where((x) => x.inField).toList();
