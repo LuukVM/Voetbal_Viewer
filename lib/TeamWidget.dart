@@ -34,14 +34,17 @@ class TeamState extends State<Team> with SingleTickerProviderStateMixin {
                 'sv Hillegom Zondag 11',
                 key: Key('TeamWidget'),
               ),
-              IconButton(
-                alignment: Alignment.centerRight,
-                key: Key('DeselectAll'),
-                icon: Icon(Icons.loop),
-                onPressed: () => {
-                  changeAllItemCompleteness(players),
-                  _vibrate(),
-                },
+              Padding(
+                padding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width - 286),
+                child: IconButton(
+                  key: Key('DeselectAll'),
+                  icon: Icon(Icons.loop),
+                  onPressed: () => {
+                    changeAllItemCompleteness(players),
+                    _vibrate(),
+                  },
+                ),
               ),
             ],
           ),

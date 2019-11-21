@@ -18,7 +18,7 @@ class BackgroundImage extends StatefulWidget {
 }
 
 class BackgroundImageState extends State<BackgroundImage> {
-  bool fieldSetup = true;
+  bool fieldSetup = false;
   bool bottomSheetActive = false;
 
   @override

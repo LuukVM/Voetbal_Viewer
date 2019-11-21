@@ -23,7 +23,7 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
   void initState() {
     super.initState();
     presentPlayers = players.where((x) => x.present && !x.inField).toList();
-    _pageController = PageController(initialPage: 0, viewportFraction: 0.4);
+    _pageController = PageController(initialPage: 1, viewportFraction: 0.4);
   }
 
   @override
@@ -60,9 +60,8 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
       child: FlatButton(
         child: buildContainer(item, index),
         onPressed: () => {
-          print(item.title),
-          Navigator.pop(context, item.title),
-          //setInfield(item),
+          submit(item),
+          setInfield(item),
           Vibration.vibrate(duration: 50, amplitude: 125),
         },
       ),
@@ -118,7 +117,7 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
     );
   }
   
-  void submit(String item){
+  void submit(Player item){
     Navigator.pop(context, item);
   }
 

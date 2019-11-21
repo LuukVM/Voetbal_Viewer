@@ -13,6 +13,7 @@ class NewPlayerView extends StatefulWidget {
 
 class _NewPlayerViewState extends State<NewPlayerView> {
   TextEditingController titleController;
+  bool _validate = false;
 
   @override
   void initState() {
@@ -37,9 +38,10 @@ class _NewPlayerViewState extends State<NewPlayerView> {
             TextField(
               controller: titleController,
               autofocus: true,
-              onSubmitted: (value) => submit(),
+              //onSubmitted: (value) => value.isEmpty ?  : submit(),
               decoration: InputDecoration(
                   labelText: 'Naam van de speler',
+                  errorText: _validate ? 'Vul een naam in aub' : null,
                   fillColor: Color(0xFF0062A5)),
               textCapitalization: TextCapitalization.words,
             ),
@@ -59,7 +61,10 @@ class _NewPlayerViewState extends State<NewPlayerView> {
                       bottomLeft: Radius.circular(10.0),
                       topRight: Radius.circular(10.0))),
               onPressed: () => {
-                submit(),
+                setState((){
+                  titleController.text.isEmpty ? _validate = true : _validate = false;
+                }),
+                _validate ? null : submit(),
                 Vibration.vibrate(duration: 50, amplitude: 125),
               },
             )
