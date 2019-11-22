@@ -12,7 +12,8 @@ import 'package:voetbal_viewer/bottom_modal.dart';
 
 class DragTargetWidget extends StatefulWidget {
   final bool fieldSetupbool;
-  DragTargetWidget({Key key, @required this.fieldSetupbool}) : super(key: key);
+  final List<Player> playersInfield;
+  DragTargetWidget({Key key, @required this.fieldSetupbool, @required this.playersInfield}) : super(key: key);
 
   @override
   DragTargetWidgetState createState() => DragTargetWidgetState();
@@ -21,12 +22,13 @@ class DragTargetWidget extends StatefulWidget {
 class DragTargetWidgetState extends State<DragTargetWidget> {
   String name;
   int index;
-  List<Player> playersInfield = new List<Player>();
+  List<Player> _playersInfield = new List<Player>();
 
   @override
   void initState() {
     super.initState();
-    playersInfield = players.where((x) => x.inField).toList();
+    //playersInfield = players.where((x) => x.inField).toList();
+    _playersInfield = widget.playersInfield;
   }
 
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
     return Stack(
       children: <Widget>[
         fieldSetup('unoccupied', false),
-        playersInfield.isNotEmpty ? getPresetPlayers() : Center(),
+        _playersInfield.isNotEmpty ? getPresetPlayers() : Center(),
       ],
     );
   }
@@ -47,28 +49,28 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
   Widget fieldSetup(item, _occupied) {
     return Stack(
       children: <Widget>[
-        position(0, _occupied, item, 100, 150), //keeper
-        position(1, _occupied, item, -50, 215), //centerdefender
-        position(2, _occupied, item, 250, 215), //frontstopper
-        position(3, _occupied, item, 320, 270), //leftback
-        position(4, _occupied, item, -120, 270), //rightback
-        position(5, _occupied, item, 320, 405), //middleleft
-        position(6, _occupied, item, widget.fieldSetupbool ? 240 : 100,
-            340), //centermiddle
-        position(7, _occupied, item, -120, 405), //middleright
-        position(8, _occupied, item, widget.fieldSetupbool ? 250 : 320,
-            widget.fieldSetupbool ? 520 : 490), //frontleft
-        position(9, _occupied, item, widget.fieldSetupbool ? -50 : 100,
-            widget.fieldSetupbool ? 340 : 530), //centralattacker
-        position(10, _occupied, item, widget.fieldSetupbool ? -50 : -120,
-            widget.fieldSetupbool ? 520 : 490), //frontright
+        position(0, _occupied, item, 0.50, 0.77), //keeper
+        position(1, _occupied, item, 0.75, 0.69), //centerdefender
+        position(2, _occupied, item, 0.25, 0.69), //frontstopper
+        position(3, _occupied, item, 0.05, 0.60), //leftback
+        position(4, _occupied, item, 0.95, 0.60), //rightback
+        position(5, _occupied, item, 0.15, 0.40), //middleleft
+        position(6, _occupied, item, widget.fieldSetupbool ? 0.25 : 0.50,
+            0.50), //centermiddle
+        position(7, _occupied, item, 0.85, 0.40), //middleright
+        position(8, _occupied, item, widget.fieldSetupbool ? 0.25 : 0.05,
+            0.25), //frontleft
+        position(9, _occupied, item, widget.fieldSetupbool ? 0.75 : 0.5,
+            widget.fieldSetupbool ? 0.50 : 0.15), //centralattacker
+        position(10, _occupied, item, widget.fieldSetupbool ? 0.75 : 0.95,
+            0.25), //frontright
       ],
     );
   }
 
   Widget getPresetPlayers() {
     return Stack(children: <Widget>[
-      for(Player players in playersInfield) rebuildSetup(players.fieldIndex, players, true),
+      for(Player players in _playersInfield) rebuildSetup(players.fieldIndex, players, true),
     ]);
   }
 
@@ -76,21 +78,21 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
     return IndexedStack(
       index: _index,
       children: <Widget>[
-        position(0, _occupied, item, 100, 150), //keeper
-        position(1, _occupied, item, -50, 215), //centerdefender
-        position(2, _occupied, item, 250, 215), //frontstopper
-        position(3, _occupied, item, 320, 270), //leftback
-        position(4, _occupied, item, -120, 270), //rightback
-        position(5, _occupied, item, 320, 405), //middleleft
-        position(6, _occupied, item, widget.fieldSetupbool ? 240 : 100,
-            340), //centermiddle
-        position(7, _occupied, item, -120, 405), //middleright
-        position(8, _occupied, item, widget.fieldSetupbool ? 250 : 320,
-            widget.fieldSetupbool ? 520 : 490), //frontleft
-        position(9, _occupied, item, widget.fieldSetupbool ? -50 : 100,
-            widget.fieldSetupbool ? 340 : 530), //centralattacker
-        position(10, _occupied, item, widget.fieldSetupbool ? -50 : -120,
-            widget.fieldSetupbool ? 520 : 490), //frontright
+        position(0, _occupied, item, 0.50, 0.77), //keeper
+        position(1, _occupied, item, 0.75, 0.69), //centerdefender
+        position(2, _occupied, item, 0.25, 0.69), //frontstopper
+        position(3, _occupied, item, 0.05, 0.60), //leftback
+        position(4, _occupied, item, 0.95, 0.60), //rightback
+        position(5, _occupied, item, 0.15, 0.40), //middleleft
+        position(6, _occupied, item, widget.fieldSetupbool ? 0.25 : 0.50,
+            0.50), //centermiddle
+        position(7, _occupied, item,  0.85, 0.40), //middleright
+        position(8, _occupied, item, widget.fieldSetupbool ? 0.25 : 0.05,
+            0.25), //frontleft
+        position(9, _occupied, item, widget.fieldSetupbool ? 0.75 : 0.5,
+            widget.fieldSetupbool ? 0.50 : 0.15), //centralattacker
+        position(10, _occupied, item, widget.fieldSetupbool ? 0.75 : 0.95,
+            0.25), //frontright
       ],
     );
   }
@@ -98,8 +100,9 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
   Widget position(int _index, bool _occupied, _item, double x, double y) {
     return Padding(
       padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height - y,
-          left: (MediaQuery.of(context).size.width - x) / 2),
+          top: MediaQuery.of(context).size.height * y,
+          left: (MediaQuery.of(context).size.width - 100) * x
+          ),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -145,7 +148,7 @@ class DragTargetWidgetState extends State<DragTargetWidget> {
         _occupied ? setPlayeroutField(currentName) : null;
         saveData();
         rebuildSetup(_index, _item, true);
-        playersInfield = players.where((x) => x.inField).toList();
+        _playersInfield = widget.playersInfield;//.where((x) => x.inField).toList();
       });
     } else {
       rebuildSetup(_index, (_index + 1).toString(), false);

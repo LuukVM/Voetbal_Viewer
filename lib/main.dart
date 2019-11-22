@@ -5,6 +5,7 @@
 import 'dart:ui' as prefix0;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'BottomNavigator.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:voetbal_viewer/football_icons.dart';
@@ -26,7 +27,9 @@ class MyApp extends StatelessWidget {
             fontSize: 20.0,
             color: Color(0xFF0062A5)),
       ),
-      image: new Image.asset('fonts/splashscreen_icon.png'),
+      image: new Image.asset('fonts/splashscreen_icon.png',
+      height:  MediaQuery.of(context).size.height * 0.4,
+      width: MediaQuery.of(context).size.width * 0.2,),
       backgroundColor: Colors.white,
       loadingText:
           Text('Laden...', style: new TextStyle(color: Color(0xFF0062A5))),
@@ -37,25 +40,11 @@ class MyApp extends StatelessWidget {
 }
 
 void main() {
-  runApp(MaterialApp(
-    title: 'My app', // used by the OS task switcher
-    //home: ExampleVeld(),
-    home: MyApp(),
-    // home: new StaggeredGridView.countBuilder(
-    //   crossAxisCount: 4,
-    //   itemCount: 9,
-    //   itemBuilder: (BuildContext context, int index) => new Container(
-    //       color: Colors.blue,
-    //       child: new Center(
-    //         child: new CircleAvatar(
-    //           backgroundColor: Colors.white,
-    //           child: new Text('$index'),
-    //         ),
-    //       )),
-    //   staggeredTileBuilder: (int index) =>
-    //       new StaggeredTile.count(2, index.isEven ? 2 : 1),
-    //   mainAxisSpacing: 4.0,
-    //   crossAxisSpacing: 4.0,
-    // ),
-  ));
+ // SystemChrome.setPreferredOrientations(
+ //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
+    runApp(MaterialApp(
+      title: 'My app', // used by the OS task switcher
+      home: MyApp(),
+    ));
+  //});
 }

@@ -3,14 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:vibration/vibration.dart';
-import 'package:voetbal_viewer/BottomSheet.dart';
 import 'package:voetbal_viewer/DragTargetWidget.dart';
-import 'package:voetbal_viewer/bottom_modal.dart';
-import 'package:voetbal_viewer/football_icons.dart';
-import 'package:voetbal_viewer/New_player.dart';
 import 'package:voetbal_viewer/Player.dart';
 import 'package:voetbal_viewer/GlobalVariable.dart';
-import 'package:voetbal_viewer/DraggableWidget.dart';
 
 class BackgroundImage extends StatefulWidget {
   const BackgroundImage({Key key}) : super(key: key);
@@ -26,16 +21,18 @@ class BackgroundImageState extends State<BackgroundImage> {
   Timer _timer;
   int _start = 90;
 
-  void startTimer(){
+  void startTimer() {
     const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(oneSec, 
-    (Timer timer) => setState((){
-      if(_start < 1){
-        timer.cancel();
-      }else{
-        _start = _start - 1;
-      }
-    }),);
+    _timer = new Timer.periodic(
+      oneSec,
+      (Timer timer) => setState(() {
+        if (_start < 1) {
+          timer.cancel();
+        } else {
+          _start = _start - 1;
+        }
+      }),
+    );
   }
 
   @override
@@ -45,11 +42,10 @@ class BackgroundImageState extends State<BackgroundImage> {
   }
 
   @override
-  void dispose(){
+  void dispose() {
     saveTimer();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +62,7 @@ class BackgroundImageState extends State<BackgroundImage> {
           ),
           Padding(
             padding: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height - 615,
+              top: MediaQuery.of(context).size.height * 0.035,
             ),
             child: Container(
               height: 35,
@@ -86,7 +82,10 @@ class BackgroundImageState extends State<BackgroundImage> {
                 textColor: Colors.black,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0)),
-                child: fieldSetup ? Text('4-4-2') : Text('4-3-3'),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: fieldSetup ? Text('4-4-2') : Text('4-3-3'),
+                ),
                 onPressed: () => {
                   Vibration.vibrate(duration: 50, amplitude: 125),
                   setState(() {
@@ -96,28 +95,48 @@ class BackgroundImageState extends State<BackgroundImage> {
               ),
             ),
           ),
-          AnimatedContainer(
-            child: Container(
-              child: Text(''),
-              color: Colors.white,)
-          ),
+          // AnimatedContainer(
+          //   child: Container(
+          //     child: Text(''),
+          //     color: Colors.white,)
+          // ),
           Padding(
             padding: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height - 618,
-              left: MediaQuery.of(context).size.width - 80,
+              top: MediaQuery.of(context).size.height * 0.03,
+              left: MediaQuery.of(context).size.width * 0.85,
             ),
-            child: FlatButton(
-              color: Colors.red[900],
-              shape: CircleBorder(),
-              child: Icon(
-                Icons.loop,
-                color: Colors.white,
+            child: Container(
+              height: 35,
+              width: 64,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black87,
+                    offset: Offset(1.0, 4.0),
+                    blurRadius: 6.0,
+                  ),
+                ],
               ),
-              onPressed: () => resetField(playersInfield),
+              child: FlatButton(
+                color: Colors.red[900],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                child: Icon(
+                  Icons.loop,
+                  color: Colors.white,
+                ),
+                onPressed: () => {
+                  resetField(playersInfield),
+                  Vibration.vibrate(duration: 50, amplitude: 125),
+                },
+              ),
             ),
           ),
           DragTargetWidget(
             fieldSetupbool: fieldSetup,
+            playersInfield: playersInfield,
           ),
         ],
       ),
@@ -142,7 +161,5 @@ class BackgroundImageState extends State<BackgroundImage> {
     sharedPreferences.setStringList('players', stringList);
   }
 
-  void saveTimer(){
-
-  }
+  void saveTimer() {}
 }

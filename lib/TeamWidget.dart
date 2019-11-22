@@ -36,7 +36,8 @@ class TeamState extends State<Team> with SingleTickerProviderStateMixin {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width - 286),
+                  left: MediaQuery.of(context).size.width * 0.32,
+                ),
                 child: IconButton(
                   key: Key('DeselectAll'),
                   icon: Icon(Icons.loop),

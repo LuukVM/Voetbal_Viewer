@@ -32,7 +32,8 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width - 248),
+                  left: MediaQuery.of(context).size.width * 0.41,
+                ),
                 child: IconButton(
                     icon: Icon(Icons.loop),
                     onPressed: () => {
