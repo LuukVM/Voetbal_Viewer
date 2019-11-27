@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
 import 'package:voetbal_viewer/GlobalVariable.dart';
 import 'package:voetbal_viewer/Player.dart';
-import 'package:voetbal_viewer/TeamWidget.dart';
 
 class BottomSheetSwitch extends StatefulWidget {
 

@@ -2,24 +2,20 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
-import 'package:voetbal_viewer/FieldWidget.dart';
-import 'package:voetbal_viewer/football_icons.dart';
-import 'TeamWidget.dart';
-import 'package:voetbal_viewer/PresentWidget.dart';
 import 'package:voetbal_viewer/GlobalVariable.dart';
 import 'package:voetbal_viewer/Player.dart';
 import 'package:voetbal_viewer/bottom_modal.dart';
 
-class DragTargetWidget extends StatefulWidget {
+class FieldLocationWidget extends StatefulWidget {
   final bool fieldSetupbool;
   final List<Player> playersInfield;
-  DragTargetWidget({Key key, @required this.fieldSetupbool, @required this.playersInfield}) : super(key: key);
+  FieldLocationWidget({Key key, @required this.fieldSetupbool, @required this.playersInfield}) : super(key: key);
 
   @override
-  DragTargetWidgetState createState() => DragTargetWidgetState();
+  FieldLocationWidgetState createState() => FieldLocationWidgetState();
 }
 
-class DragTargetWidgetState extends State<DragTargetWidget> {
+class FieldLocationWidgetState extends State<FieldLocationWidget> {
   String name;
   int index;
   List<Player> _playersInfield = new List<Player>();

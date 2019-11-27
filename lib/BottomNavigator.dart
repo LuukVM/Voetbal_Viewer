@@ -4,7 +4,6 @@ import 'package:voetbal_viewer/FieldWidget.dart';
 import 'package:voetbal_viewer/football_icons.dart';
 import 'TeamWidget.dart';
 import 'package:voetbal_viewer/PresentWidget.dart';
-import 'package:voetbal_viewer/bottom_modal.dart';
 
 class BottomNavigator extends StatefulWidget {
   BottomNavigator({Key key}) : super(key: key);

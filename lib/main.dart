@@ -2,16 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:ui' as prefix0;
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'BottomNavigator.dart';
 import 'package:splashscreen/splashscreen.dart';
-import 'package:voetbal_viewer/football_icons.dart';
-import 'package:voetbal_viewer/test.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:voetbal_viewer/example_1.dart';
 
 class MyApp extends StatelessWidget {
   @override

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:vibration/vibration.dart';
-import 'package:voetbal_viewer/DragTargetWidget.dart';
+import 'package:voetbal_viewer/FieldLocationWidget.dart';
 import 'package:voetbal_viewer/Player.dart';
 import 'package:voetbal_viewer/GlobalVariable.dart';
 
@@ -86,7 +86,7 @@ class BackgroundImageState extends State<BackgroundImage> {
                   fit: BoxFit.scaleDown,
                   child: fieldSetup ? Text('4-4-2') : Text('4-3-3'),
                 ),
-                onPressed: () => {
+                onPressed: () => playersInfield.isEmpty ? null : {
                   Vibration.vibrate(duration: 50, amplitude: 125),
                   setState(() {
                     fieldSetup = !fieldSetup;
@@ -134,7 +134,7 @@ class BackgroundImageState extends State<BackgroundImage> {
               ),
             ),
           ),
-          DragTargetWidget(
+          FieldLocationWidget(
             fieldSetupbool: fieldSetup,
             playersInfield: playersInfield,
           ),
