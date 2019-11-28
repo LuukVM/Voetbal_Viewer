@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'BottomNavigator.dart';
 import 'package:splashscreen/splashscreen.dart';
 
@@ -20,9 +21,11 @@ class MyApp extends StatelessWidget {
             fontSize: 20.0,
             color: Color(0xFF0062A5)),
       ),
-      image: new Image.asset('fonts/splashscreen_icon.png',
-      height:  MediaQuery.of(context).size.height * 0.4,
-      width: MediaQuery.of(context).size.width * 0.2,),
+      image: new Image.asset(
+        'fonts/splashscreen_icon.png',
+        height: MediaQuery.of(context).size.height * 0.4,
+        width: MediaQuery.of(context).size.width * 0.2,
+      ),
       backgroundColor: Colors.white,
       loadingText:
           Text('Laden...', style: new TextStyle(color: Color(0xFF0062A5))),
@@ -33,11 +36,12 @@ class MyApp extends StatelessWidget {
 }
 
 void main() {
- // SystemChrome.setPreferredOrientations(
- //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'My app', // used by the OS task switcher
       home: MyApp(),
     ));
-  //});
+  });
 }

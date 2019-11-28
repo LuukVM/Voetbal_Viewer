@@ -42,12 +42,6 @@ class BackgroundImageState extends State<BackgroundImage> {
   }
 
   @override
-  void dispose() {
-    saveTimer();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -86,7 +80,7 @@ class BackgroundImageState extends State<BackgroundImage> {
                   fit: BoxFit.scaleDown,
                   child: fieldSetup ? Text('4-4-2') : Text('4-3-3'),
                 ),
-                onPressed: () => playersInfield.isEmpty ? null : {
+                onPressed: () => {
                   Vibration.vibrate(duration: 50, amplitude: 125),
                   setState(() {
                     fieldSetup = !fieldSetup;
@@ -95,11 +89,6 @@ class BackgroundImageState extends State<BackgroundImage> {
               ),
             ),
           ),
-          // AnimatedContainer(
-          //   child: Container(
-          //     child: Text(''),
-          //     color: Colors.white,)
-          // ),
           Padding(
             padding: EdgeInsets.only(
               top: MediaQuery.of(context).size.height * 0.03,
@@ -160,6 +149,4 @@ class BackgroundImageState extends State<BackgroundImage> {
         players.map((item) => json.encode(item.toMap())).toList();
     sharedPreferences.setStringList('players', stringList);
   }
-
-  void saveTimer() {}
 }
