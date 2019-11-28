@@ -125,7 +125,6 @@ class BackgroundImageState extends State<BackgroundImage> {
           ),
           FieldLocationWidget(
             fieldSetupbool: fieldSetup,
-            playersInfield: playersInfield,
           ),
         ],
       ),

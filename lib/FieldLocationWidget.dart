@@ -8,8 +8,8 @@ import 'package:voetbal_viewer/bottom_modal.dart';
 
 class FieldLocationWidget extends StatefulWidget {
   final bool fieldSetupbool;
-  final List<Player> playersInfield;
-  FieldLocationWidget({Key key, @required this.fieldSetupbool, @required this.playersInfield}) : super(key: key);
+
+  FieldLocationWidget({Key key, @required this.fieldSetupbool}) : super(key: key);
 
   @override
   FieldLocationWidgetState createState() => FieldLocationWidgetState();
@@ -23,8 +23,7 @@ class FieldLocationWidgetState extends State<FieldLocationWidget> {
   @override
   void initState() {
     super.initState();
-    //playersInfield = players.where((x) => x.inField).toList();
-    _playersInfield = widget.playersInfield;
+    _playersInfield = players.where((x) => x.inField).toList();
   }
 
   Widget build(BuildContext context) {
@@ -143,8 +142,8 @@ class FieldLocationWidgetState extends State<FieldLocationWidget> {
         _item.fieldIndex = _index;
         _occupied ? setPlayeroutField(currentName) : null;
         saveData();
+        _playersInfield.where((x) => x.inField).toList();
         rebuildSetup(_index, _item, true);
-        _playersInfield = widget.playersInfield;//.where((x) => x.inField).toList();
       });
     } else {
       rebuildSetup(_index, (_index + 1).toString(), false);
