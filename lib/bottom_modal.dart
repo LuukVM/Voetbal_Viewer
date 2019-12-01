@@ -22,7 +22,7 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
   void initState() {
     super.initState();
     presentPlayers = players.where((x) => x.present && !x.inField).toList();
-    _pageController = PageController(initialPage: 1, viewportFraction: 0.4);
+    _pageController = PageController(initialPage: 0, viewportFraction: 0.57);
   }
 
   @override
@@ -117,11 +117,5 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
   
   void submit(Player item){
     Navigator.pop(context, item);
-  }
-
-  void saveData() {
-    List<String> stringList =
-        players.map((item) => json.encode(item.toMap())).toList();
-    sharedPreferences.setStringList('players', stringList);
   }
 }
