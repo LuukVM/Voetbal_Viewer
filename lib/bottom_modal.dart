@@ -60,7 +60,6 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
         child: buildContainer(item, index),
         onPressed: () => {
           submit(item),
-          setInfield(item),
           Vibration.vibrate(duration: 50, amplitude: 125),
         },
       ),
@@ -118,13 +117,6 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
   
   void submit(Player item){
     Navigator.pop(context, item);
-  }
-
-  void setInfield(Player item) {
-    setState(() {
-      item.inField = !item.inField;
-    });
-    saveData();
   }
 
   void saveData() {

@@ -2,13 +2,16 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
+import 'package:voetbal_viewer/FieldWidget.dart';
+import 'package:voetbal_viewer/football_icons.dart';
+import 'TeamWidget.dart';
+import 'package:voetbal_viewer/PresentWidget.dart';
 import 'package:voetbal_viewer/GlobalVariable.dart';
 import 'package:voetbal_viewer/Player.dart';
 import 'package:voetbal_viewer/bottom_modal.dart';
 
 class FieldLocationWidget extends StatefulWidget {
   final bool fieldSetupbool;
-
   FieldLocationWidget({Key key, @required this.fieldSetupbool}) : super(key: key);
 
   @override
@@ -18,12 +21,12 @@ class FieldLocationWidget extends StatefulWidget {
 class FieldLocationWidgetState extends State<FieldLocationWidget> {
   String name;
   int index;
-  List<Player> _playersInfield = new List<Player>();
+  List<Player> playersInfield = new List<Player>();
 
   @override
   void initState() {
     super.initState();
-    _playersInfield = players.where((x) => x.inField).toList();
+    playersInfield = players.where((x) => x.inField).toList();
   }
 
   Widget build(BuildContext context) {
@@ -36,7 +39,7 @@ class FieldLocationWidgetState extends State<FieldLocationWidget> {
     return Stack(
       children: <Widget>[
         fieldSetup('unoccupied', false),
-        _playersInfield.isNotEmpty ? getPresetPlayers() : Center(),
+        playersInfield.isNotEmpty ? getPresetPlayers() : Center(),
       ],
     );
   }
@@ -52,20 +55,20 @@ class FieldLocationWidgetState extends State<FieldLocationWidget> {
         position(5, _occupied, item, 0.15, 0.40), //middleleft
         position(6, _occupied, item, widget.fieldSetupbool ? 0.25 : 0.50,
             0.50), //centermiddle
-        position(7, _occupied, item, 0.85, 0.40), //middleright
+        position(7, _occupied, item,  0.85, 0.40), //middleright
         position(8, _occupied, item, widget.fieldSetupbool ? 0.25 : 0.05,
             0.25), //frontleft
         position(9, _occupied, item, widget.fieldSetupbool ? 0.75 : 0.5,
             widget.fieldSetupbool ? 0.50 : 0.15), //centralattacker
         position(10, _occupied, item, widget.fieldSetupbool ? 0.75 : 0.95,
-            0.25), //frontright
+            0.25),  //frontright
       ],
     );
   }
 
   Widget getPresetPlayers() {
     return Stack(children: <Widget>[
-      for(Player players in _playersInfield) rebuildSetup(players.fieldIndex, players, true),
+      for(Player players in playersInfield) rebuildSetup(players.fieldIndex, players, true),
     ]);
   }
 
@@ -96,8 +99,7 @@ class FieldLocationWidgetState extends State<FieldLocationWidget> {
     return Padding(
       padding: EdgeInsets.only(
           top: MediaQuery.of(context).size.height * y,
-          left: (MediaQuery.of(context).size.width - 100) * x
-          ),
+          left: (MediaQuery.of(context).size.width - 100) * x),
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xFF0062A5),
@@ -140,11 +142,12 @@ class FieldLocationWidgetState extends State<FieldLocationWidget> {
     if (_item != null) {
       setState(() {
         _item.fieldIndex = _index;
+        _item.inField = true;
         _occupied ? setPlayeroutField(currentName) : null;
-        saveData();
-        _playersInfield.where((x) => x.inField).toList();
         rebuildSetup(_index, _item, true);
+        playersInfield = players.where((x) => x.inField).toList();
       });
+        saveData();
     } else {
       rebuildSetup(_index, (_index + 1).toString(), false);
     }
