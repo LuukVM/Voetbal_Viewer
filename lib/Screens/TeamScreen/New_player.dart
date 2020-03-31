@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
-import 'package:voetbal_viewer/Player.dart';
+import 'package:voetbal_viewer/Persons/Player.dart';
 
 class NewPlayerView extends StatefulWidget {
   final Player item;

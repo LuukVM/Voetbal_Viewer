@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "541593265274",
+    "firebase_url": "https://voetbal-viewer-fbf16.firebaseio.com",
+    "project_id": "voetbal-viewer-fbf16",
+    "storage_bucket": "voetbal-viewer-fbf16.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:541593265274:android:2c07409a01c56f9ad487c3",
+        "android_client_info": {
+          "package_name": "com.example.voetbal_viewer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "541593265274-5scsn1809f546d21036kb2tca9209p0i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCviM85FxXSqTDyk6Avno5zKvCn2Pc-G8Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "541593265274-5scsn1809f546d21036kb2tca9209p0i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

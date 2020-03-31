@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:voetbal_viewer/GlobalVariable.dart';
-import 'package:voetbal_viewer/Player.dart';
+import 'package:voetbal_viewer/Persons/Player.dart';
 
 class ConversationBottomSheet extends StatefulWidget {
   const ConversationBottomSheet({Key key}) : super(key: key);

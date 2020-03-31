@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:vibration/vibration.dart';
-import 'package:voetbal_viewer/Player.dart';
+import 'package:voetbal_viewer/Persons/Player.dart';
 import 'package:voetbal_viewer/GlobalVariable.dart';
 
 class Present extends StatefulWidget {
@@ -24,29 +24,22 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Row(
-            children: <Widget>[
-              Text(
-                'Aanwezige spelers',
-                key: Key('PresentWidget'),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.41,
-                ),
-                child: IconButton(
-                    icon: Icon(Icons.loop),
-                    onPressed: () => {
-                          changeAllItemCompleteness(players),
-                          setState(() {
-                            presentPlayers =
-                                players.where((x) => x.present).toList();
-                          }),
-                          _vibrate(),
-                        }),
-              ),
-            ],
+          title: Text(
+            'Aanwezige spelers',
+            key: Key('PresentWidget'),
           ),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.loop),
+                onPressed: () => {
+                      changeAllItemCompleteness(players),
+                      setState(() {
+                        presentPlayers =
+                            players.where((x) => x.present).toList();
+                      }),
+                      _vibrate(),
+                    }),
+          ],
           backgroundColor: Color(0xFF0062A5),
         ),
         body: presentPlayers.isEmpty ? emptyList() : buildListView());

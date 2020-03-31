@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:vibration/vibration.dart';
-import 'package:voetbal_viewer/FieldLocationWidget.dart';
-import 'package:voetbal_viewer/Player.dart';
+import 'package:voetbal_viewer/Screens/FieldScreen/FieldLocationWidget.dart';
+import 'package:voetbal_viewer/Persons/Player.dart';
 import 'package:voetbal_viewer/GlobalVariable.dart';
 
 class BackgroundImage extends StatefulWidget {

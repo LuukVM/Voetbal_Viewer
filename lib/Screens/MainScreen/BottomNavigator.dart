@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
-import 'package:voetbal_viewer/FieldWidget.dart';
+import 'package:voetbal_viewer/Screens/FieldScreen/FieldWidget.dart';
 import 'package:voetbal_viewer/football_icons.dart';
-import 'TeamWidget.dart';
-import 'package:voetbal_viewer/PresentWidget.dart';
+import 'package:voetbal_viewer/Screens/TeamScreen/TeamWidget.dart';
+import 'package:voetbal_viewer/Screens/PresentScreen/PresentWidget.dart';
 
 class BottomNavigator extends StatefulWidget {
   BottomNavigator({Key key}) : super(key: key);

@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
 import 'package:voetbal_viewer/GlobalVariable.dart';
-import 'package:voetbal_viewer/Player.dart';
-import 'package:voetbal_viewer/bottom_modal.dart';
+import 'package:voetbal_viewer/Persons/Player.dart';
+import 'package:voetbal_viewer/Screens/FieldScreen/bottom_modal.dart';
 
 class FieldLocationWidget extends StatefulWidget {
   final bool fieldSetupbool;

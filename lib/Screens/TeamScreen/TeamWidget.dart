@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
-import 'package:voetbal_viewer/New_player.dart';
-import 'package:voetbal_viewer/Player.dart';
+import 'package:voetbal_viewer/Screens/TeamScreen/New_player.dart';
+import 'package:voetbal_viewer/Persons/Player.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:voetbal_viewer/GlobalVariable.dart';
+import 'package:voetbal_viewer/Services/auth.dart';
 
 class Team extends StatefulWidget {
   const Team({Key key}) : super(key: key);
@@ -13,6 +14,8 @@ class Team extends StatefulWidget {
 }
 
 class TeamState extends State<Team> with SingleTickerProviderStateMixin {
+  final AuthService _auth = AuthService();
+
   @override
   void initState() {
     loadSharedPreferencesAndData();
@@ -27,27 +30,25 @@ class TeamState extends State<Team> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Row(
-            children: <Widget>[
-              Text(
-                'sv Hillegom Zondag 11',
-                key: Key('TeamWidget'),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.32,
-                ),
-                child: IconButton(
-                  key: Key('DeselectAll'),
-                  icon: Icon(Icons.loop),
-                  onPressed: () => {
-                    changeAllItemCompleteness(players),
-                    _vibrate(),
-                  },
-                ),
-              ),
-            ],
+          title: Text(
+            'sv Hillegom Zondag 11',
+            key: Key('TeamWidget'),
           ),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.exit_to_app),
+                onPressed: () async {
+                  await _auth.signOut();
+                }),
+            IconButton(
+              key: Key('DeselectAll'),
+              icon: Icon(Icons.loop),
+              onPressed: () => {
+                changeAllItemCompleteness(players),
+                _vibrate(),
+              },
+            ),
+          ],
           backgroundColor: Color(0xFF0062A5),
         ),
         floatingActionButton: FloatingActionButton(
