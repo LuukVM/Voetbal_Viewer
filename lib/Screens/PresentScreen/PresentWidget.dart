@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
 import 'package:voetbal_viewer/Persons/Player.dart';
 import 'package:voetbal_viewer/GlobalVariable.dart';
+import 'package:voetbal_viewer/Services/database.dart';
 
 class Present extends StatefulWidget {
   const Present({Key key}) : super(key: key);
@@ -17,11 +19,12 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    presentPlayers = players.where((x) => x.present).toList();
   }
 
   @override
   Widget build(BuildContext context) {
+    final dbPlayers = Provider.of<List<Player>>(context) ?? [];
+    presentPlayers = dbPlayers.where((x) => x.present).toList();
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -32,28 +35,30 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
             IconButton(
                 icon: Icon(Icons.loop),
                 onPressed: () => {
-                      changeAllItemCompleteness(players),
-                      setState(() {
-                        presentPlayers =
-                            players.where((x) => x.present).toList();
-                      }),
+                      changeAllItemCompleteness(dbPlayers),
+                      // setState(() {
+                      //   presentPlayers =
+                      //       dbPlayers.where((x) => x.present).toList();
+                      // }),
                       _vibrate(),
                     }),
           ],
           backgroundColor: Color(0xFF0062A5),
         ),
-        body: presentPlayers.isEmpty ? emptyList() : buildListView());
+        body: presentPlayers.isEmpty
+            ? emptyList()
+            : buildListView(presentPlayers));
   }
 
-  Widget buildListView() {
+  Widget buildListView(List _dbPlayers) {
     return ListView.separated(
       separatorBuilder: (context, index) => Divider(
         height: 0.0,
         color: Colors.black,
       ),
-      itemCount: presentPlayers.length,
+      itemCount: _dbPlayers.length,
       itemBuilder: (BuildContext context, int index) {
-        return buildListTile(presentPlayers[index], index);
+        return buildListTile(_dbPlayers[index], index);
       },
     );
   }
@@ -69,9 +74,9 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
         onTap: () => {
               _vibrate(),
               changeItemCompleteness(item),
-              setState(() {
-                presentPlayers = players.where((x) => x.present).toList();
-              }),
+              // setState(() {
+              //   presentPlayers = players.where((x) => x.present).toList();
+              // }),
             },
         title: Text(
           item.title,
@@ -92,37 +97,20 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
         ));
   }
 
-  void changeItemCompleteness(Player item) {
-    setState(() {
-      item.present = !item.present;
-      item.inField = false;
-    });
-    saveData();
-  }
-
-  void changeAllItemCompleteness(List<Player> item) {
+  void changeAllItemCompleteness(List<Player> item) async {
     for (var i = 0; i < item.length; i++) {
       if (item[i].present == true) {
-        setState(() {
-          item[i].present = !item[i].present;
-          item[i].inField = false;
-        });
+        await DatabaseService(uid: item[i].id).updatePlayerPresent(!item[i].present);
       }
     }
-    saveData();
   }
 
-  void setCarState(Player item) {
-    setState(() {
-      item.hasCar = !item.hasCar;
-    });
-    saveData();
+  void changeItemCompleteness(Player item) async {
+    await DatabaseService(uid: item.id).updatePlayerPresent(!item.present);
   }
 
-  void saveData() {
-    List<String> stringList =
-        players.map((item) => json.encode(item.toMap())).toList();
-    sharedPreferences.setStringList('players', stringList);
+  void setCarState(Player item) async {
+    await DatabaseService(uid: item.id).updatePlayerHasCar(!item.hasCar);
   }
 
   void _vibrate() {

@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
 import 'package:voetbal_viewer/GlobalVariable.dart';
 import 'package:voetbal_viewer/Persons/Player.dart';
+import 'package:voetbal_viewer/Services/database.dart';
 
 class BottomSheetSwitch extends StatefulWidget {
-
-  BottomSheetSwitch({Key key}) : super(key: key);
+  final playerlist;
+  final index;
+  BottomSheetSwitch({Key key, this.playerlist, this.index}) : super(key: key);
 
   @override
   _BottomSheetSwitch createState() => _BottomSheetSwitch();
@@ -21,7 +23,7 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
   @override
   void initState() {
     super.initState();
-    presentPlayers = players.where((x) => x.present && !x.inField).toList();
+    presentPlayers = widget.playerlist.where((x) => x.present && !x.inField).toList();
     _pageController = PageController(initialPage: 1, viewportFraction: 0.4);
   }
 
@@ -59,8 +61,8 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
       child: FlatButton(
         child: buildContainer(item, index),
         onPressed: () => {
-          submit(item),
           setInfield(item),
+          submit(item),
           Vibration.vibrate(duration: 50, amplitude: 125),
         },
       ),
@@ -120,16 +122,7 @@ class _BottomSheetSwitch extends State<BottomSheetSwitch> {
     Navigator.pop(context, item);
   }
 
-  void setInfield(Player item) {
-    setState(() {
-      item.inField = !item.inField;
-    });
-    saveData();
-  }
-
-  void saveData() {
-    List<String> stringList =
-        players.map((item) => json.encode(item.toMap())).toList();
-    sharedPreferences.setStringList('players', stringList);
+  void setInfield(Player item) async {
+    await DatabaseService(uid: item.id).updatePlayerInField(!item.inField);
   }
 }

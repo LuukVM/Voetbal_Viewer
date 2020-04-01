@@ -1,15 +1,14 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
-import 'package:voetbal_viewer/GlobalVariable.dart';
 import 'package:voetbal_viewer/Persons/Player.dart';
 import 'package:voetbal_viewer/Screens/FieldScreen/bottom_modal.dart';
+import 'package:voetbal_viewer/Services/database.dart';
 
 class FieldLocationWidget extends StatefulWidget {
   final bool fieldSetupbool;
-  final List<Player> playersInfield;
-  FieldLocationWidget({Key key, @required this.fieldSetupbool, @required this.playersInfield}) : super(key: key);
+  //final List<Player> playersInfield;
+  FieldLocationWidget({Key key, @required this.fieldSetupbool}) : super(key: key);
 
   @override
   FieldLocationWidgetState createState() => FieldLocationWidgetState();
@@ -19,15 +18,19 @@ class FieldLocationWidgetState extends State<FieldLocationWidget> {
   String name;
   int index;
   List<Player> _playersInfield = new List<Player>();
+  List<Player> presentplayers = new List<Player>();
 
   @override
   void initState() {
     super.initState();
     //playersInfield = players.where((x) => x.inField).toList();
-    _playersInfield = widget.playersInfield;
+    // _playersInfield = widget.playersInfield;
   }
 
   Widget build(BuildContext context) {
+    final dbPlayers = Provider.of<List<Player>>(context) ?? [];
+    _playersInfield = dbPlayers.where((x) => x.inField).toList();
+    presentplayers = dbPlayers.where((x) => x.present).toList();
     return Container(
       child: test(),
     );
@@ -135,33 +138,16 @@ class FieldLocationWidgetState extends State<FieldLocationWidget> {
     Player _item = await showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
-      builder: (context) => BottomSheetSwitch(),
+      builder: (context) => BottomSheetSwitch(playerlist: presentplayers, index: _index,),
     );
-
     if (_item != null) {
-      setState(() {
-        _item.fieldIndex = _index;
-        _occupied ? setPlayeroutField(currentName) : null;
-        saveData();
-        rebuildSetup(_index, _item, true);
-        _playersInfield = widget.playersInfield;//.where((x) => x.inField).toList();
-      });
+      await DatabaseService(uid: _item.id).updatePlayerFieldIndex(_index);
     } else {
       rebuildSetup(_index, (_index + 1).toString(), false);
     }
   }
 
-  void saveData() {
-    List<String> stringList =
-        players.map((item) => json.encode(item.toMap())).toList();
-    sharedPreferences.setStringList('players', stringList);
-  }
-
-  void setPlayeroutField(Player item) {
-    setState(() {
-      item.inField = false;
-      item.fieldIndex = null;
-      saveData();
-    });
+  void setPlayeroutField(Player item) async {
+    await DatabaseService(uid: item.id).updatePlayerInField(!item.inField);
   }
 }

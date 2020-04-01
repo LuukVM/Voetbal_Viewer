@@ -2,10 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
 import 'package:voetbal_viewer/Screens/FieldScreen/FieldLocationWidget.dart';
 import 'package:voetbal_viewer/Persons/Player.dart';
 import 'package:voetbal_viewer/GlobalVariable.dart';
+import 'package:voetbal_viewer/Services/database.dart';
+import 'package:voetbal_viewer/Shared/loading.dart';
 
 class BackgroundImage extends StatefulWidget {
   const BackgroundImage({Key key}) : super(key: key);
@@ -16,6 +19,7 @@ class BackgroundImage extends StatefulWidget {
 class BackgroundImageState extends State<BackgroundImage> {
   bool fieldSetup = false;
   bool bottomSheetActive = false;
+  bool loading = false;
   List<Player> playersInfield = new List();
 
   Timer _timer;
@@ -38,12 +42,13 @@ class BackgroundImageState extends State<BackgroundImage> {
   @override
   void initState() {
     super.initState();
-    playersInfield = players.where((x) => x.inField).toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final dbPlayers = Provider.of<List<Player>>(context) ?? [];
+    playersInfield = dbPlayers.where((x) => x.inField).toList();
+    return loading ? Loading() : Scaffold(
       body: Stack(
         children: <Widget>[
           Center(
@@ -125,28 +130,20 @@ class BackgroundImageState extends State<BackgroundImage> {
           ),
           FieldLocationWidget(
             fieldSetupbool: fieldSetup,
-            playersInfield: playersInfield,
           ),
         ],
       ),
     );
   }
 
-  void resetField(List<Player> item) {
+  void resetField(List<Player> item) async {
     for (var i = 0; i < item.length; i++) {
+      setState(() => loading = true);
       if (item[i].inField == true) {
-        setState(() {
-          item[i].fieldIndex = null;
-          item[i].inField = false;
-        });
+        await DatabaseService(uid: item[i].id)
+            .updatePlayerInField(!item[i].inField);
       }
     }
-    saveData();
-  }
-
-  void saveData() {
-    List<String> stringList =
-        players.map((item) => json.encode(item.toMap())).toList();
-    sharedPreferences.setStringList('players', stringList);
+    setState(() => loading = false);
   }
 }
