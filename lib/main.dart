@@ -5,7 +5,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:splashscreen/splashscreen.dart';
 import 'package:voetbal_viewer/Services/auth.dart';
 import 'package:voetbal_viewer/wrapper.dart';
 import 'package:voetbal_viewer/Persons/user.dart';

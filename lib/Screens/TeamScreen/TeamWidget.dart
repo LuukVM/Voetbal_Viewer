@@ -1,13 +1,11 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
 import 'package:voetbal_viewer/Screens/TeamScreen/New_player.dart';
 import 'package:voetbal_viewer/Persons/Player.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:voetbal_viewer/GlobalVariable.dart';
 import 'package:voetbal_viewer/Services/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:voetbal_viewer/Services/database.dart';
+import 'package:voetbal_viewer/Shared/loading.dart';
 
 class Team extends StatefulWidget {
   const Team({Key key}) : super(key: key);
@@ -17,6 +15,7 @@ class Team extends StatefulWidget {
 
 class TeamState extends State<Team> with SingleTickerProviderStateMixin {
   final AuthService _auth = AuthService();
+  bool loading = false;
 
   @override
   void initState() {
@@ -57,7 +56,7 @@ class TeamState extends State<Team> with SingleTickerProviderStateMixin {
             _vibrate(),
           },
         ),
-        body: dbPlayers.isEmpty ? emptyList() : buildListView(dbPlayers));
+        body: loading ? Loading() : (dbPlayers.isEmpty ? emptyList() : buildListView(dbPlayers)));
   }
 
   Widget emptyList() {
@@ -147,10 +146,13 @@ class TeamState extends State<Team> with SingleTickerProviderStateMixin {
 
   void changeAllItemCompleteness(List<Player> item) async {
     for (var i = 0; i < item.length; i++) {
+      setState(() => loading = true);
       if (item[i].present == true) {
-        await DatabaseService(uid: item[i].id).updatePlayerPresent(!item[i].present);
+        await DatabaseService(uid: item[i].id)
+            .updatePlayerPresent(!item[i].present);
       }
     }
+    setState(() => loading = false);
   }
 
   void changeItemCompleteness(Player item) async {

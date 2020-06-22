@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
-import 'package:voetbal_viewer/GlobalVariable.dart';
 import 'package:voetbal_viewer/Persons/Player.dart';
 import 'package:voetbal_viewer/Services/database.dart';
 

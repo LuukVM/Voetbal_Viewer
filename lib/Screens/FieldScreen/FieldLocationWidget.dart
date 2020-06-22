@@ -7,7 +7,6 @@ import 'package:voetbal_viewer/Services/database.dart';
 
 class FieldLocationWidget extends StatefulWidget {
   final bool fieldSetupbool;
-  //final List<Player> playersInfield;
   FieldLocationWidget({Key key, @required this.fieldSetupbool}) : super(key: key);
 
   @override
@@ -23,12 +22,10 @@ class FieldLocationWidgetState extends State<FieldLocationWidget> {
   @override
   void initState() {
     super.initState();
-    //playersInfield = players.where((x) => x.inField).toList();
-    // _playersInfield = widget.playersInfield;
   }
 
   Widget build(BuildContext context) {
-    final dbPlayers = Provider.of<List<Player>>(context) ?? [];
+    final dbPlayers = Provider.of<List<Player>>(context);
     _playersInfield = dbPlayers.where((x) => x.inField).toList();
     presentplayers = dbPlayers.where((x) => x.present).toList();
     return Container(
@@ -141,6 +138,7 @@ class FieldLocationWidgetState extends State<FieldLocationWidget> {
       builder: (context) => BottomSheetSwitch(playerlist: presentplayers, index: _index,),
     );
     if (_item != null) {
+      _occupied ? setPlayeroutField(currentName) : null;
       await DatabaseService(uid: _item.id).updatePlayerFieldIndex(_index);
     } else {
       rebuildSetup(_index, (_index + 1).toString(), false);

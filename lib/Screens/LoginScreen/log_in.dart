@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
+import 'package:voetbal_viewer/Screens/PlayerScreen/PlayerWidget.dart';
 import 'package:voetbal_viewer/Services/auth.dart';
 import 'package:voetbal_viewer/Shared/constants.dart';
 import 'package:voetbal_viewer/Shared/loading.dart';
@@ -22,7 +24,7 @@ class _SigninState extends State<Signin> {
     return loading
         ? Loading()
         : Scaffold(
-          resizeToAvoidBottomPadding: false,
+            resizeToAvoidBottomPadding: false,
             backgroundColor: Colors.white,
             body: Container(
               color: Colors.white,
@@ -38,8 +40,8 @@ class _SigninState extends State<Signin> {
                             child: new Image.asset('fonts/app_icon.png'),
                             height: 150.0),
                         TextFormField(
-                            decoration: textInputDecoration.copyWith(
-                                hintText: 'Email'),
+                            decoration:
+                                textInputDecoration.copyWith(hintText: 'Email'),
                             validator: (val) =>
                                 val.isEmpty ? 'Vul een email in' : null,
                             onChanged: (val) {
@@ -63,6 +65,7 @@ class _SigninState extends State<Signin> {
                                   color: Colors.white,
                                 )),
                             onPressed: () async {
+                              Vibration.vibrate(duration: 50, amplitude: 125);
                               if (_formKey.currentState.validate()) {
                                 setState(() => loading = true);
                                 dynamic result =
@@ -102,7 +105,15 @@ class _SigninState extends State<Signin> {
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Vibration.vibrate(duration: 50, amplitude: 125);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) => PlayerPage(),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),

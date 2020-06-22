@@ -1,11 +1,10 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
 import 'package:voetbal_viewer/Persons/Player.dart';
-import 'package:voetbal_viewer/GlobalVariable.dart';
 import 'package:voetbal_viewer/Services/database.dart';
+import 'package:voetbal_viewer/Shared/loading.dart';
 
 class Present extends StatefulWidget {
   const Present({Key key}) : super(key: key);
@@ -15,6 +14,7 @@ class Present extends StatefulWidget {
 
 class PresentState extends State<Present> with SingleTickerProviderStateMixin {
   List<Player> presentPlayers = new List();
+  bool loading = false;
 
   @override
   void initState() {
@@ -28,7 +28,7 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            'Aanwezige spelers',
+            'Aanwezige spelers : ' + presentPlayers.length.toString(),
             key: Key('PresentWidget'),
           ),
           actions: <Widget>[
@@ -36,18 +36,14 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
                 icon: Icon(Icons.loop),
                 onPressed: () => {
                       changeAllItemCompleteness(dbPlayers),
-                      // setState(() {
-                      //   presentPlayers =
-                      //       dbPlayers.where((x) => x.present).toList();
-                      // }),
                       _vibrate(),
                     }),
           ],
           backgroundColor: Color(0xFF0062A5),
         ),
-        body: presentPlayers.isEmpty
+        body: loading ? Loading() : (presentPlayers.isEmpty
             ? emptyList()
-            : buildListView(presentPlayers));
+            : buildListView(presentPlayers)));
   }
 
   Widget buildListView(List _dbPlayers) {
@@ -74,9 +70,6 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
         onTap: () => {
               _vibrate(),
               changeItemCompleteness(item),
-              // setState(() {
-              //   presentPlayers = players.where((x) => x.present).toList();
-              // }),
             },
         title: Text(
           item.title,
@@ -99,10 +92,12 @@ class PresentState extends State<Present> with SingleTickerProviderStateMixin {
 
   void changeAllItemCompleteness(List<Player> item) async {
     for (var i = 0; i < item.length; i++) {
+            setState(() => loading = true);
       if (item[i].present == true) {
         await DatabaseService(uid: item[i].id).updatePlayerPresent(!item[i].present);
       }
     }
+    setState(() => loading = false);
   }
 
   void changeItemCompleteness(Player item) async {

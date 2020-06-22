@@ -1,5 +1,9 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:voetbal_viewer/Persons/Player.dart';
+import 'package:voetbal_viewer/Persons/field.dart';
 
 class DatabaseService {
   final String uid;
@@ -9,6 +13,7 @@ class DatabaseService {
   final CollectionReference playerInstance =
       Firestore.instance.collection('player');
   final CollectionReference user = Firestore.instance.collection('user');
+  final CollectionReference fieldInstance = Firestore.instance.collection('field');
 
   Future updateUserData(String name) async {
     return await user.document(uid).setData({
@@ -100,5 +105,28 @@ class DatabaseService {
   // get player stream
   Stream<List<Player>> get players {
     return playerInstance.snapshots().map(_playerListFromSnapshot);
+  }
+
+  Field _fieldDataFromSnapshot(DocumentSnapshot snapshot){
+    return Field(
+      fieldSetup: snapshot.data['fieldSetup'] ?? false,
+      timer: snapshot.data['timer'] ?? 20,
+    );
+  }
+
+  Stream<Field> get field {
+    return fieldInstance.document(uid).snapshots().map(_fieldDataFromSnapshot);
+  }
+
+  Future updateFieldSetup(bool setup) async{
+    return await fieldInstance.document(uid).updateData({
+      'fieldSetup': setup,
+    });
+  }
+
+  Future updateFieldTimer(int timer) async{
+    return await fieldInstance.document(uid).updateData({
+      'timer': timer,
+    });
   }
 }
